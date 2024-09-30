@@ -2,7 +2,7 @@ import csv
 from datetime import datetime
 
 # Define the path to your CSV file
-csv_file = 'output/BTC_USDT-202408.csv'
+csv_file = 'output/VMT_USDT-202408.csv'
 
 # Open the CSV file and read its content
 with open(csv_file, 'r') as file:
