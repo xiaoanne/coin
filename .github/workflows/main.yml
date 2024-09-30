@@ -22,6 +22,9 @@ jobs:
           rm *.gz
           ls -ll
           wc -l BTC_USDT-202408.csv
+          git add *
+          git commit -m "Upload data"
+          git push
 #          ls -ll script/data
 #          chmod +x script.sh  # Make sure the script is executable
 #          ./script.sh
