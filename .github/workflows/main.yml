@@ -15,6 +15,8 @@ jobs:
 
       - name: Run bash script
         run: |
+          git config --global user.email "huiyang.wang621@gmail.com"
+          git config --global user.name "Anne Pipeline"
           wc -l script/output/VMT_USDT-202408.csv
           cd script/data
           curl -O https://download.gatedata.org/spot/candlesticks_1d/202408/BTC_USDT-202408.csv.gz
