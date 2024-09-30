@@ -18,9 +18,10 @@ jobs:
           wc -l script/output/VMT_USDT-202408.csv
           cd script/data
           curl -O https://download.gatedata.org/spot/candlesticks_1d/202408/BTC_USDT-202408.csv.gz
-          ls -ll
           zcat  BTC_USDT-202408.csv.gz > BTC_USDT-202408.csv
+          rm *.gz
           ls -ll
+          wc -l BTC_USDT-202408.csv
 #          ls -ll script/data
 #          chmod +x script.sh  # Make sure the script is executable
 #          ./script.sh
