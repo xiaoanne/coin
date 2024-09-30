@@ -16,13 +16,11 @@ jobs:
       - name: Run bash script
         run: |
           wc -l script/output/VMT_USDT-202408.csv
-          pwd
-          ls -ll
+          cd script/data
           curl -O https://download.gatedata.org/spot/candlesticks_1d/202408/BTC_USDT-202408.csv.gz
           ls -ll
-          zcat  BTC_USDT-202408.csv.gz  > script/data/BTC_USDT-202408.csv
-          ls -ll script/data
-#          ls -ll
+          zcat  BTC_USDT-202408.csv.gz > BTC_USDT-202408.csv
+          ls -ll
 #          ls -ll script/data
 #          chmod +x script.sh  # Make sure the script is executable
 #          ./script.sh
