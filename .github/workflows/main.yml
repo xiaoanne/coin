@@ -20,9 +20,9 @@ jobs:
           ls -ll
           curl -O https://download.gatedata.org/spot/candlesticks_1d/202409/BTC_USDT-2024092812.csv.gz
           ls -ll
-          mv *.gz script/data
+          mv *.gz script/data/
           ls -ll
-          ls -ll script/data
+          ls -ll script/data/
 #          chmod +x script.sh  # Make sure the script is executable
 #          ./script.sh
 #          cd /home/runner/work/coin/coin/script/data
