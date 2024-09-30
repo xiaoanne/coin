@@ -1,14 +1,3 @@
-name: pipeline
-
-permissions:
-  contents: write
-
-# This workflow triggers on each push to the main branch
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   basic-ubuntu-latest:
     runs-on: ubuntu-latest
@@ -24,47 +13,43 @@ jobs:
       - name: Loop through each month and upload data
         run: |
           cd script/data
-          # Define start year
+          # Define start year and current year
           START_YEAR=2021
-
-          # Get current year
           CURRENT_YEAR=$(date +"%Y")
 
           # Loop through each year from 2021 to the current year
           for year in $(seq $START_YEAR $CURRENT_YEAR); do
             # Loop through each month (01 to 12)
             for month in $(seq -w 1 12); do
-              # Construct the month-year identifier (e.g., 202408)
               identifier="${year}${month}"
-
-              # Define the file URL and file names
               url="https://download.gatedata.org/spot/candlesticks_1d/${identifier}/BTC_USDT-${identifier}.csv.gz"
               gz_file="BTC_USDT-${identifier}.csv.gz"
               csv_file="BTC_USDT-${identifier}.csv"
 
-              echo "Processing: $url"
-
-              # Download the .gz file for the specified month and year
+              # Download .gz file and process it
               curl -O $url
-
-              # Check if the file was downloaded successfully
               if [[ -f "$gz_file" ]]; then
-                # Decompress the .gz file to .csv
                 zcat "$gz_file" > "$csv_file"
-                
-                # Remove the .gz file after decompression
                 rm -rf "$gz_file"
-
-                # List the files and show line count of the CSV
-                ls -ll
-                wc -l "$csv_file"
-
-                # Add, commit, and push the changes to the repository
-                git add "$csv_file"
-                git commit -m "Upload data for ${identifier}"
-                git push origin main
-              else
-                echo "File $gz_file not found or download failed."
               fi
             done
           done
+          
+          # Combine all BTC*.csv files into one single file without duplicate headers
+          awk 'FNR==1 && NR!=1 {next} {print}' script/data/BTC*.csv > script/data/combined_BTC_USDT.csv
+
+          git add "$csv_file"
+          ls -ll
+          git commit -m "Combined all BTC CSV files into one"
+          git push origin main
+
+#      - name: Combine all CSV files into one
+#        run: |
+#          # Combine all BTC*.csv files into one single file without duplicate headers
+#          awk 'FNR==1 && NR!=1 {next} {print}' script/data/BTC*.csv > script/data/combined_BTC_USDT.csv
+#
+#      - name: Commit and push combined CSV
+#        run: |
+#          git add script/data/combined_BTC_USDT.csv
+#          git commit -m "Combined all BTC CSV files into one"
+#          git push origin main
