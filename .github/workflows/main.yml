@@ -17,6 +17,10 @@ jobs:
         run: |
           wc -l script/output/VMT_USDT-202408.csv
           cd script
-          python convert_timestamp.py
+#          python convert_timestamp.py
+          cd data
+          curl -O https://download.gatedata.org/spot/candlesticks_1d/202409/BTC_USDT-2024092812.csv.gz
+          gunzip BTC_USDT-2024092812.csv.gz
+          ls -ll
 #          chmod +x script.sh  # Make sure the script is executable
 #          ./script.sh
