@@ -23,7 +23,6 @@ jobs:
 
       - name: Loop through each month and upload data
         run: |
-          rm *.csv
           cd script/data
           # Define start year
           START_YEAR=2021
