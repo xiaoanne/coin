@@ -42,15 +42,18 @@ jobs:
               if [[ -f "$gz_file" ]]; then
                 zcat "$gz_file" > "$csv_file"
                 rm -rf "$gz_file"
+                git add "$csv_file"
+                git commit -m "Upload data for ${identifier}"
+                git push origin main
               fi
             done
           done
           
-          # Combine all BTC*.csv files into one single file without duplicate headers
-          awk 'FNR==1 && NR!=1 {next} {print}' script/data/BTC*.csv > script/data/combined_BTC_USDT.csv
-
-          git add "$csv_file"
-          ls -ll
-          git commit -m "Combined all BTC CSV files into one"
-          git push origin main
+#          # Combine all BTC*.csv files into one single file without duplicate headers
+#          awk 'FNR==1 && NR!=1 {next} {print}' script/data/BTC*.csv > script/data/combined_BTC_USDT.csv
+#
+#          git add "$csv_file"
+#          ls -ll
+#          git commit -m "Combined all BTC CSV files into one"
+#          git push origin main
 
