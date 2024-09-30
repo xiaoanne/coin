@@ -18,8 +18,7 @@ jobs:
           wc -l script/output/VMT_USDT-202408.csv
           pwd
           ls -ll
-          cd script
-          cd data
+          cd /home/runner/work/coin/coin/script/data
           curl -O https://download.gatedata.org/spot/candlesticks_1d/202409/BTC_USDT-2024092812.csv.gz
           gunzip BTC_USDT-2024092812.csv.gz
           ls -ll
