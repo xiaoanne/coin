@@ -38,6 +38,8 @@ jobs:
               csv_file="BTC_USDT-${identifier}.csv"
 
               # Download .gz file and process it
+              mkdir BTC_USDT
+              cd BTC_USDT
               curl -O $url
               if [[ -f "$gz_file" ]]; then
                 zcat "$gz_file" > "$csv_file"
