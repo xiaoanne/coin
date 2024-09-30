@@ -20,8 +20,7 @@ jobs:
           ls -ll
           curl -O https://download.gatedata.org/spot/candlesticks_1d/202409/BTC_USDT-2024092812.csv.gz
           ls -ll
-          gunzip BTC_USDT-2024092812.csv.gz
-
+          zcat  BTC_USDT-202408.csv.gz  > script/data/BTC_USDT-202408.csv
 #          cp *.gz script/data
 #          ls -ll
 #          ls -ll script/data
