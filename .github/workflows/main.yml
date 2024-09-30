@@ -25,7 +25,7 @@ jobs:
           cd script/data
           curl -O https://download.gatedata.org/spot/candlesticks_1d/202408/BTC_USDT-202408.csv.gz
           zcat  BTC_USDT-202408.csv.gz > BTC_USDT-202408.csv
-          rm *.gz
+          rm -rf *.gz
           ls -ll
           wc -l BTC_USDT-202408.csv
           git add *
