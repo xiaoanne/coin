@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  basic-ubuntu-20:
+  basic-ubuntu-latest:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,5 +16,6 @@ jobs:
       - name: Run bash script
         run: |
           wc -l script/output/VMT_USDT-202408.csv
+          python script/convert_timestamp.py
 #          chmod +x script.sh  # Make sure the script is executable
 #          ./script.sh
