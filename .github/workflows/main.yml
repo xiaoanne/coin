@@ -16,6 +16,8 @@ jobs:
       - name: Run bash script
         run: |
           wc -l script/output/VMT_USDT-202408.csv
+          pwd
+          ls -ll
           cd script
           cd data
           curl -O https://download.gatedata.org/spot/candlesticks_1d/202409/BTC_USDT-2024092812.csv.gz
