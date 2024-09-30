@@ -3,38 +3,67 @@ name: pipeline
 permissions:
   contents: write
 
-# This workflow represents a set of basic End-to-End tests
+# This workflow triggers on each push to the main branch
 on:
   push:
     branches:
       - main
 
 jobs:
-
   basic-ubuntu-latest:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run bash script
+      - name: Set up Git user
         run: |
           git config --global user.email "huiyang.wang621@gmail.com"
           git config --global user.name "Anne Pipeline"
-          wc -l script/output/VMT_USDT-202408.csv
-          cd script/data
-          curl -O https://download.gatedata.org/spot/candlesticks_1d/202408/BTC_USDT-202408.csv.gz
-          zcat  BTC_USDT-202408.csv.gz > BTC_USDT-202408.csv
-          rm -rf *.gz
-          ls -ll
-          wc -l BTC_USDT-202408.csv
-          git add *
-          git commit -m "Upload data"
-          git push
-#          ls -ll script/data
-#          chmod +x script.sh  # Make sure the script is executable
-#          ./script.sh
-#          cd /home/runner/work/coin/coin/script/data
-#          gunzip BTC_USDT-2024092812.csv.gz
 
-#          python convert_timestamp.py
+      - name: Loop through each month and upload data
+        run: |
+          # Define start year
+          START_YEAR=2021
+
+          # Get current year
+          CURRENT_YEAR=$(date +"%Y")
+
+          # Loop through each year from 2021 to the current year
+          for year in $(seq $START_YEAR $CURRENT_YEAR); do
+            # Loop through each month (01 to 12)
+            for month in $(seq -w 1 12); do
+              # Construct the month-year identifier (e.g., 202408)
+              identifier="${year}${month}"
+
+              # Define the file URL and file names
+              url="https://download.gatedata.org/spot/candlesticks_1d/${identifier}/BTC_USDT-${identifier}.csv.gz"
+              gz_file="BTC_USDT-${identifier}.csv.gz"
+              csv_file="BTC_USDT-${identifier}.csv"
+
+              echo "Processing: $url"
+
+              # Download the .gz file for the specified month and year
+              curl -O $url
+
+              # Check if the file was downloaded successfully
+              if [[ -f "$gz_file" ]]; then
+                # Decompress the .gz file to .csv
+                zcat "$gz_file" > "$csv_file"
+                
+                # Remove the .gz file after decompression
+                rm -rf "$gz_file"
+
+                # List the files and show line count of the CSV
+                ls -ll
+                wc -l "$csv_file"
+
+                # Add, commit, and push the changes to the repository
+                git add "$csv_file"
+                git commit -m "Upload data for ${identifier}"
+                git push origin main
+              else
+                echo "File $gz_file not found or download failed."
+              fi
+            done
+          done
