@@ -16,6 +16,7 @@ jobs:
       - name: Run bash script
         run: |
           wc -l script/output/VMT_USDT-202408.csv
-          python script/convert_timestamp.py
+          cd script
+          python convert_timestamp.py
 #          chmod +x script.sh  # Make sure the script is executable
 #          ./script.sh
