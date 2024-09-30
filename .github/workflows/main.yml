@@ -1,0 +1,20 @@
+name: pipeline
+# This workflow represents a set of basic End-to-End tests
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+
+  basic-ubuntu-20:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run bash script
+        run: |
+          wc -l script/output/VMT_USDT-202408.csv
+#          chmod +x script.sh  # Make sure the script is executable
+#          ./script.sh
