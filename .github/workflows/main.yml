@@ -1,3 +1,14 @@
+name: pipeline
+
+permissions:
+  contents: write
+
+# This workflow triggers on each push to the main branch
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   basic-ubuntu-latest:
     runs-on: ubuntu-latest
@@ -43,13 +54,3 @@ jobs:
           git commit -m "Combined all BTC CSV files into one"
           git push origin main
 
-#      - name: Combine all CSV files into one
-#        run: |
-#          # Combine all BTC*.csv files into one single file without duplicate headers
-#          awk 'FNR==1 && NR!=1 {next} {print}' script/data/BTC*.csv > script/data/combined_BTC_USDT.csv
-#
-#      - name: Commit and push combined CSV
-#        run: |
-#          git add script/data/combined_BTC_USDT.csv
-#          git commit -m "Combined all BTC CSV files into one"
-#          git push origin main
